@@ -2,6 +2,8 @@ FROM ubuntu:14.04
 MAINTAINER Darius Bakunas-Milanowski <bakunas@gmail.com>
 
 RUN apt-get update -yqq && apt-get install -yqq \
+	dnsutils \
+	host \
 	libapache2-mod-php5 \
 	php5-curl \
 	php5-gd \
