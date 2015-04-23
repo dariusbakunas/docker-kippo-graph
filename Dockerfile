@@ -2,8 +2,10 @@ FROM debian:wheezy
 MAINTAINER Darius Bakunas-Milanowski <bakunas@gmail.com>
 
 RUN apt-get update -yqq && apt-get install -yqq \
+	apache2 \
 	dnsutils \
 	host \
+	php5 \
 	libapache2-mod-php5 \
 	php5-curl \
 	php5-gd \
@@ -11,34 +13,27 @@ RUN apt-get update -yqq && apt-get install -yqq \
 	supervisor \
 	wget
 
-WORKDIR /opt
-RUN wget http://bruteforce.gr/wp-content/uploads/kippo-graph-1.5.tar.gz && \
-	tar zxvf kippo-graph-1.5.tar.gz
-
-RUN chown -R www-data:www-data kippo-graph-1.5 && \
-	ln -s kippo-graph-1.5 kippo-graph && rm *.tar.gz
-
-WORKDIR /opt/kippo-graph
-
-RUN chmod 777 generated-graphs && cp -p config.php.dist config.php
-
-# configure apache
-WORKDIR /etc/apache2/sites-available 
-
-ADD kippo-graph.conf /etc/apache2/sites-available/kippo-graph.conf
-
-RUN chmod 644 kippo-graph.conf && \
-	a2ensite kippo-graph.conf && \
-	a2dissite 000-default.conf && \
-	a2dissite default-ssl.conf
+COPY kippo-graph.conf /etc/apache2/sites-available/kippo-graph.conf
 
 # add config for supervisord
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY entrypoint.sh /entrypoint.sh
+
+WORKDIR /opt
+
+RUN wget http://bruteforce.gr/wp-content/uploads/kippo-graph-1.5.tar.gz && \
+	tar zxvf kippo-graph-1.5.tar.gz && \
+	chown -R www-data:www-data kippo-graph-1.5 && \
+	ln -s kippo-graph-1.5 kippo-graph && rm *.tar.gz && \
+	chmod 777 /opt/kippo-graph/generated-graphs && \
+	cp -p /opt/kippo-graph/config.php.dist /opt/kippo-graph/config.php && \
+	chmod 644 /etc/apache2/sites-available/kippo-graph.conf && \
+	a2ensite kippo-graph.conf && \
+	a2dissite default && \
+	a2dissite default-ssl && \
+	chmod +x /entrypoint.sh
 
 EXPOSE 80
-
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 
