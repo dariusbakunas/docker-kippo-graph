@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM debian:wheezy
 MAINTAINER Darius Bakunas-Milanowski <bakunas@gmail.com>
 
 RUN apt-get update -yqq && apt-get install -yqq \
