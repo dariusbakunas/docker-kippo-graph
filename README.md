@@ -15,6 +15,10 @@ Start kippo-graph container:
 	$ docker port kippo
 	80/tcp -> 0.0.0.0:49166
 
+Browse to http://localhost:49166 (or use `boot2docker ip` to get an ip address if under OSX or windows):
+
+![kippo_in_browser](https://cloud.githubusercontent.com/assets/2111392/7309822/3fdd6afc-e9f1-11e4-871f-8ff6e0d09492.png)
+
 You can also specify following environment variables:  
 
 * `-e KIPPO_DB_HOST=...` (defaults to IP of the linked mysql container)
