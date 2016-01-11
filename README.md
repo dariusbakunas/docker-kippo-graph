@@ -7,6 +7,8 @@ It uses the Libchart PHP chart drawing library by Jean-Marc Trémeaux, QGoogleVi
 Make sure your mysql container that contains kippo database is up and running:
 
 	$ docker start some-mysql
+
+**Note:** kippo-graph does not work properly with mysql:5.7, please use mysql:5.6 instead
 	
 Start kippo-graph container:
 
