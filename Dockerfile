@@ -21,10 +21,10 @@ COPY entrypoint.sh /entrypoint.sh
 
 WORKDIR /opt
 
-RUN wget http://bruteforce.gr/wp-content/uploads/kippo-graph-1.5.tar.gz && \
-	tar zxvf kippo-graph-1.5.tar.gz && \
-	chown -R www-data:www-data kippo-graph-1.5 && \
-	ln -s kippo-graph-1.5 kippo-graph && rm *.tar.gz && \
+RUN wget http://bruteforce.gr/wp-content/uploads/kippo-graph-1.5.1.tar.gz && \
+	tar zxvf kippo-graph-1.5.1.tar.gz && \
+	chown -R www-data:www-data kippo-graph-1.5.1 && \
+	ln -s kippo-graph-1.5.1 kippo-graph && rm *.tar.gz && \
 	chmod 777 /opt/kippo-graph/generated-graphs && \
 	cp -p /opt/kippo-graph/config.php.dist /opt/kippo-graph/config.php && \
 	chmod 644 /etc/apache2/sites-available/kippo-graph.conf && \
